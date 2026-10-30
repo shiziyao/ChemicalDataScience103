@@ -5,25 +5,39 @@ import time
 from pathlib import Path
 
 
-# define ROOT directory as parent folder
-ROOT = Path(__file__).resolve().parents[0]
-DATA = ROOT/"data"
+# Define ROOT directory (folder containing this .py file)
+ROOT = Path(__file__).resolve().parent
 
-# Load your ChEMBL dataset
-chembl_df = pd.read_csv(DATA / "filename.csv")  # use your actual filename and path
-smiles_list = chembl_df["smiles"].dropna().tolist() # use the column tag with the "smiles"
+# Define data directory
+DATA = ROOT / "data"
+
+# Create data directory if it does not exist
+DATA.mkdir(parents=True, exist_ok=True)
+
+
+# Load ChEMBL dataset using relative path
+input_file = DATA / "coli_200_400.csv"
+
+chembl_df = pd.read_csv(input_file)
+
+# Extract SMILES
+smiles_list = chembl_df["smiles"].dropna().tolist()
 
 records = []
 
-for smi in tqdm(smiles_list):  # limit to 200 compounds for testing, tqdm just adds progress bar
+# Retrieve molecular descriptors from PubChem
+for smi in tqdm(smiles_list, desc="Processing compounds"):
+
     try:
-        compounds = pcp.get_compounds(smi, namespace='smiles') # look for each smiles-code in the list sliced from the ChEMBL data
+        compounds = pcp.get_compounds(smi, namespace="smiles")
+
         if not compounds:
             continue
-        
+
         c = compounds[0]
+
         records.append({
-            "smiles": smi, # make sure that the column name for the smiles code matches the chembl dataframe!
+            "smiles": smi,
             "CID": c.cid,
             "MolecularWeight": c.molecular_weight,
             "XLogP": c.xlogp,
@@ -33,13 +47,22 @@ for smi in tqdm(smiles_list):  # limit to 200 compounds for testing, tqdm just a
             "RotatableBondCount": c.rotatable_bond_count,
             "HeavyAtomCount": c.heavy_atom_count
         })
-        
-        # delay to avoid flooding PubChem servers
-        time.sleep(0.2)
-        
+
     except Exception as e:
         print(f"Failed for {smi[:20]}...: {e}")
 
+    # Delay to avoid flooding PubChem servers
+    finally:
+        time.sleep(0.2)
+
+
+# Convert records into DataFrame
 pubchem_df = pd.DataFrame(records)
-pubchem_df.to_csv(r"[path]\antibio_pubchem_descr.csv", index=False) # use your path and specified filename
+
+# Save output in data folder
+output_file = DATA / "antibio_pubchem_descr.csv"
+
+pubchem_df.to_csv(output_file, index=False)
+
 print(f"Saved {len(pubchem_df)} entries.")
+print(f"Output location: {output_file}")

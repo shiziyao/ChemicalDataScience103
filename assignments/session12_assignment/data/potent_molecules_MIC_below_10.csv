@@ -1,0 +1,6 @@
+smiles,MIC_ug_L,molecularweight,xlogp,tpsa,hbonddonorcount,hbondacceptorcount,rotatablebondcount,heavyatomcount,cid,xlogp_group
+CCCCc1nc(Cl)c(/C=N/N2C(=O)c3cccc4c(N5CCCC5)ccc(c34)C2=O)[nH]1,125.97200000000001,449.9,5.6,81.7,1.0,5.0,6.0,32.0,137225038.0,High XLogP
+CCCCc1nc(Cl)c(/C=N/N2C(=O)c3cccc4c(N5CCOCC5)ccc(c34)C2=O)[nH]1,125.793,465.9,4.7,90.9,1.0,6.0,6.0,33.0,137225001.0,High XLogP
+CCn1cc(C(=O)O)c(=O)c2cc(F)c(N3CCNCC3)cc21,124.5387,319.33,-1.0,72.9,2.0,7.0,3.0,23.0,4539.0,Low XLogP
+COc1c(N2C[C@@H]3CCCN[C@@H]3C2)c(F)cc2c(=O)c(C(=O)O)cn(C3CC3)c12,124.434,401.4,0.6,82.1,2.0,8.0,4.0,29.0,152946.0,Low XLogP
+Cc1noc2c(F)c3c(cc12)CC1(C(=O)NC(=O)NC1=O)[C@H]1[C@H](C)O[C@H](C)CN31,80.48,402.4,1.4,114.0,2.0,8.0,0.0,29.0,45381704.0,Low XLogP
