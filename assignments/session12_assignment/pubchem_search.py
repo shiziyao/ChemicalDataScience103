@@ -58,6 +58,7 @@ for smi in tqdm(smiles_list, desc="Processing compounds"):
 
 # Convert records into DataFrame
 pubchem_df = pd.DataFrame(records)
+<<<<<<< HEAD
 
 # Save output in data folder
 output_file = DATA / "antibio_pubchem_descr.csv"
@@ -66,3 +67,7 @@ pubchem_df.to_csv(output_file, index=False)
 
 print(f"Saved {len(pubchem_df)} entries.")
 print(f"Output location: {output_file}")
+=======
+pubchem_df.to_csv(DATA / "antibio_pubchem_descr.csv", index=False) # use your path and specified filename
+print(f"Saved {len(pubchem_df)} entries.")
+>>>>>>> 18281d6aa167361f4356789b09c97c8a311ff7ea
