@@ -8,6 +8,7 @@ from pathlib import Path
 # Define ROOT directory (folder containing this .py file)
 ROOT = Path(__file__).resolve().parent
 
+<<<<<<< HEAD
 # Define data directory
 DATA = ROOT / "data"
 
@@ -22,6 +23,11 @@ chembl_df = pd.read_csv(input_file)
 
 # Extract SMILES
 smiles_list = chembl_df["smiles"].dropna().tolist()
+=======
+# Load your ChEMBL dataset
+chembl_df = pd.read_csv(DATA / "mics_raw.csv")  # use your actual filename and path
+smiles_list = chembl_df["smiles"].dropna().tolist() # use the column tag with the "smiles"
+>>>>>>> acd0cca796f511f6e43438ad80e2d2666207235c
 
 records = []
 
@@ -29,15 +35,23 @@ records = []
 for smi in tqdm(smiles_list, desc="Processing compounds"):
 
     try:
+<<<<<<< HEAD
         compounds = pcp.get_compounds(smi, namespace="smiles")
 
+=======
+        compounds = pcp.get_compounds(smi, namespace='canonical_smiles') # look for each smiles-code in the list sliced from the ChEMBL data
+>>>>>>> acd0cca796f511f6e43438ad80e2d2666207235c
         if not compounds:
             continue
 
         c = compounds[0]
 
         records.append({
+<<<<<<< HEAD
             "smiles": smi,
+=======
+            "canonical_smiles": smi, # make sure that the column name for the smiles code matches the chembl dataframe!
+>>>>>>> acd0cca796f511f6e43438ad80e2d2666207235c
             "CID": c.cid,
             "MolecularWeight": c.molecular_weight,
             "XLogP": c.xlogp,
